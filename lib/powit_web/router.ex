@@ -37,7 +37,7 @@ defmodule PowitWeb.Router do
   #protected routes
   scope "/", PowitWeb do
     pipe_through [:browser, :protected]
-    get "/", PageController, :index
+    get "/", PostController, :index
 
     resources "/posts", PostController
   end

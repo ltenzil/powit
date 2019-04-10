@@ -101,4 +101,10 @@ defmodule Powit.CMS do
   def change_post(%Post{} = post) do
     Post.changeset(post, %{})
   end
+
+  def build_user_post(user) do
+    user
+    |> Ecto.build_assoc(:posts)
+    |> Post.changeset(%{})
+  end
 end

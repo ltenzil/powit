@@ -1,6 +1,5 @@
 defmodule PowitWeb.PostController do
   use PowitWeb, :controller
-
   alias Powit.CMS
   alias Powit.CMS.Post
 
@@ -8,16 +7,19 @@ defmodule PowitWeb.PostController do
 
   def index(conn, _params) do
     posts = CMS.list_posts()
+    Logger.info(inspect(Pow.Plug.current_user(conn)))
     render(conn, "index.html", posts: posts)
   end
 
   def new(conn, _params) do
-    changeset = CMS.change_post(%Post{})
-    render(conn, "new.html", changeset: changeset)
+    cuser = Pow.Plug.current_user(conn)
+    new_post = CMS.build_user_post(cuser)
+    render(conn, "new.html", changeset: new_post)
   end
 
   def create(conn, %{"post" => post_params}) do
     Logger.debug(inspect(post_params))
+    cuser = Pow.Plug.current_user(conn)
     case CMS.create_post(post_params) do
       {:ok, post} ->
         conn

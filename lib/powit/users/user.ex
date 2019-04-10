@@ -6,6 +6,7 @@ defmodule Powit.Users.User do
 
   schema "users" do
     pow_user_fields()
+    has_many :posts, Powit.CMS.Post
 
     timestamps()
   end
