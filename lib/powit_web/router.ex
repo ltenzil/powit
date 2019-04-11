@@ -39,7 +39,9 @@ defmodule PowitWeb.Router do
     pipe_through [:browser, :protected]
     get "/", PostController, :index
 
-    resources "/posts", PostController
+    resources "/posts", PostController do
+      resources "/comments", CommentController
+    end
   end
 
   # Other scopes may use custom stacks.

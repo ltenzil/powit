@@ -18,9 +18,8 @@ defmodule PowitWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    Logger.debug(inspect(post_params))
     cuser = Pow.Plug.current_user(conn)
-    case CMS.create_post(post_params) do
+    case CMS.create_user_post(cuser, post_params) do
       {:ok, post} ->
         conn
         |> put_flash(:info, "Post created successfully.")
@@ -37,7 +36,7 @@ defmodule PowitWeb.PostController do
   end
 
   def edit(conn, %{"id" => id}) do
-    post = CMS.get_post!(id)
+    post = CMS.get_user_post!(id)
     changeset = CMS.change_post(post)
     render(conn, "edit.html", post: post, changeset: changeset)
   end
